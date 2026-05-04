@@ -1,251 +1,97 @@
 <!DOCTYPE html>
 <html lang="ka">
 <head>
-    <meta charset="UTF-8">
-    <!-- Open Graph / Meta Tags for Preview -->
-    <meta property="og:title" content="სტუდენტების აკადემიური პორტალი">
-    <meta property="og:image" content="https://kavkasioni.edu.ge/wp-content/uploads/2021/10/logo-300x300.jpg">
-    <meta property="og:image:width" content="300">
-    <meta property="og:image:height" content="300">
-    <meta property="og:type" content="website">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>სტუდენტის პორტალი</title>
+  
+  <!-- მეტა ტეგები გაზიარებისთვის (Open Graph) -->
+  <meta property="og:title" content="სტუდენტების აკადემიური პორტალი">
+  <meta property="og:description" content="საზოგადოებრივი კოლეჯი კავკასიონი">
+  <meta property="og:image" content="https://kavkasioni.edu.ge/wp-content/uploads/2021/10/logo-300x300.jpg">
+  <meta property="og:type" content="website">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>სტუდენტების აკადემიური პორტალი</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Georgian:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #1a2e44;
-            --accent-color: #e63946;
-            --bg-color: #f8f9fa;
-            --text-color: #333;
-            --white: #ffffff;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'Noto Serif Georgian', serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            line-height: 1.6;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            width: 100%;
-            max-width: 600px;
-        }
-
-        .logo {
-            max-width: 150px;
-            margin-bottom: 15px;
-        }
-
-        .header h1 {
-            color: var(--primary-color);
-            font-size: 1.8rem;
-            margin-bottom: 10px;
-        }
-
-        .search-container {
-            background: var(--white);
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 600px;
-            display: flex;
-            gap: 10px;
-            margin-bottom: 25px;
-        }
-
-        input {
-            flex: 1;
-            padding: 12px 15px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        input:focus { border-color: var(--primary-color); }
-
-        button {
-            padding: 12px 25px;
-            background-color: var(--accent-color);
-            color: var(--white);
-            border: none;
-            border-radius: 8px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s, background-color 0.2s;
-        }
-
-        button:hover {
-            background-color: #c12e3a;
-            transform: translateY(-2px);
-        }
-
-        .result-card {
-            width: 100%;
-            max-width: 600px;
-            display: none;
-        }
-
-        .student-info {
-            background: var(--primary-color);
-            color: var(--white);
-            padding: 25px;
-            border-radius: 15px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .student-info h2 { font-size: 1.5rem; margin-bottom: 5px; }
-        .student-info p { opacity: 0.9; font-size: 0.95rem; }
-
-        .semester-box {
-            background: var(--white);
-            border-radius: 12px;
-            margin-bottom: 15px;
-            overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-        }
-
-        .semester-title {
-            background: #f1f3f5;
-            padding: 12px 20px;
-            font-weight: bold;
-            border-bottom: 1px solid #eee;
-        }
-
-        .module-item {
-            padding: 12px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #fafafa;
-        }
-
-        .module-item:last-child { border-bottom: none; }
-
-        .status-badge {
-            font-weight: bold;
-            color: #2b9348;
-        }
-
-        .status-empty {
-            width: 20px;
-            height: 2px;
-            background: #eee;
-        }
-
-        #loading { display: none; color: var(--primary-color); margin-bottom: 15px; font-weight: bold; }
-        #error { display: none; color: var(--accent-color); margin-bottom: 15px; text-align: center; }
-
-        @media (max-width: 480px) {
-            .search-container { flex-direction: column; }
-            .header h1 { font-size: 1.5rem; }
-        }
-    </style>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Georgian:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Noto Serif Georgian', 'Sylfaen', serif; background-color: #f4f7f9; padding: 20px; color: #333; margin: 0; }
+    .container { max-width: 650px; margin: auto; background: white; padding: 35px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+    .header { text-align: center; margin-bottom: 30px; }
+    .logo-img { max-width: 150px; height: auto; margin-bottom: 15px; }
+    .college-name { font-size: 1.1em; color: #555; font-weight: 700; margin-bottom: 5px; }
+    .portal-title { font-size: 1.4em; color: #2c3e50; font-weight: bold; margin-top: 5px; }
+    .search-box { display: flex; gap: 10px; margin-bottom: 25px; }
+    input { flex: 1; padding: 14px; border: 2px solid #e1e4e8; border-radius: 12px; font-size: 16px; outline: none; }
+    button { padding: 14px 25px; background: #e74c3c; color: white; border: none; border-radius: 12px; cursor: pointer; font-weight: 600; font-family: inherit; }
+    .student-card { background: #2c3e50; color: white; padding: 20px; border-radius: 15px; margin-bottom: 25px; display: none; text-align: center; }
+    .sem-block { margin-top: 20px; border: 1px solid #eee; border-radius: 15px; overflow: hidden; background: #fff; }
+    .sem-header { background: #f8f9fa; padding: 12px 20px; font-weight: bold; border-bottom: 1px solid #ddd; }
+    .mod-item { display: flex; justify-content: space-between; padding: 12px 20px; border-bottom: 1px solid #eee; }
+    .status-yes { color: #e74c3c; font-weight: bold; }
+    .status-dash { color: #bbb; }
+    #loading { display: none; text-align: center; margin: 15px 0; }
+    .error { color: #e74c3c; text-align: center; display: none; margin-top: 15px; }
+  </style>
 </head>
 <body>
-
+  <div class="container">
     <div class="header">
-        <img src="https://kavkasioni.edu.ge/wp-content/uploads/2021/10/logo-300x300.jpg" alt="Kavkasioni Logo" class="logo">
-        <h1>სტუდენტების აკადემიური პორტალი</h1>
+      <img src="https://kavkasioni.edu.ge/wp-content/uploads/2021/10/logo-300x300.jpg" class="logo-img">
+      <div class="college-name">საზოგადოებრივი კოლეჯი „კავკასიონი“</div>
+      <div class="portal-title">სტუდენტების აკადემიური პორტალი</div>
     </div>
-
-    <div class="search-container">
-        <input type="text" id="studentCode" placeholder="შეიყვანეთ თქვენი კოდი..." onkeypress="if(event.key === 'Enter') searchStudent()">
-        <button onclick="searchStudent()">ძებნა</button>
+    <div class="search-box">
+      <input type="text" id="code" placeholder="შეიყვანეთ კოდი...">
+      <button onclick="search()">ძებნა</button>
     </div>
-
     <div id="loading">მიმდინარეობს ძებნა...</div>
-    <div id="error">სტუდენტი ამ კოდით ვერ მოიძებნა.</div>
-
-    <div id="resultCard" class="result-card">
-        <div class="student-info">
-            <h2 id="dispName"></h2>
-            <p id="dispProgram"></p>
-        </div>
-        <div id="semesterContainer"></div>
+    <div id="error" class="error">სტუდენტი ვერ მოიძებნა</div>
+    <div id="resultArea">
+      <div id="card" class="student-card">
+        <h3 id="n"></h3>
+        <p id="p"></p>
+      </div>
+      <div id="semesters"></div>
     </div>
+  </div>
 
-    <script>
-        // ჩასვი შენი Apps Script-ის Web App URL აქ:
-        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx0jYnGg5g-hyeSnnIuXF-xu5cjwUUNJN8oFcA5lZgBc7fm_e49wFPcEl85TuI0mHw6Ug/exec";
+  <script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbzlPk-nU_DcBdslP_sO4-k-G_fe7dxSoGOHeiCCR1vfDYeueCxpegyZcVkkl__4QyQwxA/exec";
 
-        const placeholders = [
-            "შეიყვანეთ თქვენი კოდი აქ...",
-            "მაგ: T3185",
-            "პირადი კოდი იხილეთ ბარათზე",
-            "საძიებო კოდი..."
-        ];
-        
-        let pIdx = 0;
-        setInterval(() => {
-            pIdx = (pIdx + 1) % placeholders.length;
-            document.getElementById('studentCode').placeholder = placeholders[pIdx];
-        }, 3000);
+    function search() {
+      const code = document.getElementById('code').value.trim();
+      if (!code) return;
 
-        async function searchStudent() {
-            const code = document.getElementById('studentCode').value.trim();
-            if (!code) return;
+      document.getElementById('loading').style.display = 'block';
+      document.getElementById('error').style.display = 'none';
+      document.getElementById('semesters').innerHTML = '';
+      document.getElementById('card').style.display = 'none';
 
-            const loading = document.getElementById('loading');
-            const error = document.getElementById('error');
-            const card = document.getElementById('resultCard');
-            const container = document.getElementById('semesterContainer');
-
-            loading.style.display = 'block';
-            error.style.display = 'none';
-            card.style.display = 'none';
-
-            try {
-                const response = await fetch(`${WEB_APP_URL}?code=${code}`);
-                const data = await response.json();
-
-                if (data.found) {
-                    document.getElementById('dispName').innerText = data.name;
-                    document.getElementById('dispProgram').innerText = data.program;
-                    
-                    container.innerHTML = '';
-                    data.semesters.forEach(sem => {
-                        let semHtml = `
-                            <div class="semester-box">
-                                <div class="semester-title">${sem.title}</div>
-                        `;
-                        sem.modules.forEach(mod => {
-                            semHtml += `
-                                <div class="module-item">
-                                    <span>${mod.moduleName}</span>
-                                    ${mod.status === 'დიახ' ? '<span class="status-badge">✓</span>' : '<div class="status-empty"></div>'}
-                                </div>
-                            `;
-                        });
-                        semHtml += `</div>`;
-                        container.innerHTML += semHtml;
-                    });
-
-                    card.style.display = 'block';
-                } else {
-                    error.style.display = 'block';
-                }
-            } catch (err) {
-                console.error(err);
-                error.innerText = "დაფიქსირდა შეცდომა კავშირისას.";
-                error.style.display = 'block';
-            } finally {
-                loading.style.display = 'none';
-            }
-        }
-    </script>
+      fetch(`${API_URL}?code=${code}`)
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById('loading').style.display = 'none';
+          if (data.found) {
+            document.getElementById('n').innerText = data.name;
+            document.getElementById('p').innerText = data.program;
+            document.getElementById('card').style.display = 'block';
+            data.semesters.forEach(s => {
+              let b = document.createElement('div');
+              b.className = 'sem-block';
+              b.innerHTML = `<div class="sem-header">${s.title}</div>`;
+              s.modules.forEach(m => {
+                let i = document.createElement('div');
+                i.className = 'mod-item';
+                let st = m.status === 'დიახ' ? '<span class="status-yes">დიახ</span>' : '<span class="status-dash">____</span>';
+                i.innerHTML = `<span>${m.moduleName}</span>${st}`;
+                b.appendChild(i);
+              });
+              document.getElementById('semesters').appendChild(b);
+            });
+          } else {
+            document.getElementById('error').style.display = 'block';
+          }
+        });
+    }
+  </script>
 </body>
 </html>
