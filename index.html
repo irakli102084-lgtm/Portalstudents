@@ -1,95 +1,122 @@
 <!DOCTYPE html>
-<html lang="ka">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>სტუდენტის პორტალი</title>
-  
-  <!-- მეტა ტეგები გაზიარებისთვის (Open Graph) -->
-  <meta property="og:title" content="სტუდენტების აკადემიური პორტალი">
-  <meta property="og:description" content="საზოგადოებრივი კოლეჯი კავკასიონი">
-  <meta property="og:image" content="https://kavkasioni.edu.ge/wp-content/uploads/2021/10/logo-300x300.jpg">
-  <meta property="og:type" content="website">
-
+  <base target="_top">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Georgian:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Noto Serif Georgian', 'Sylfaen', serif; background-color: #f4f7f9; padding: 20px; color: #333; margin: 0; }
+    body { font-family: 'Noto Serif Georgian', 'Sylfaen', serif; background-color: #f4f7f9; padding: 20px; color: #333; }
     .container { max-width: 650px; margin: auto; background: white; padding: 35px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
     .header { text-align: center; margin-bottom: 30px; }
     .logo-img { max-width: 150px; height: auto; margin-bottom: 15px; }
-    .college-name { font-size: 1.1em; color: #555; font-weight: 700; margin-bottom: 5px; }
-    .portal-title { font-size: 1.4em; color: #2c3e50; font-weight: bold; margin-top: 5px; }
+    .college-name { font-size: 1.2em; color: #555; font-weight: 700; margin-bottom: 5px; }
+    .portal-title { font-size: 1.5em; color: #2c3e50; font-weight: bold; margin-top: 5px; }
     .search-box { display: flex; gap: 10px; margin-bottom: 25px; }
-    input { flex: 1; padding: 14px; border: 2px solid #e1e4e8; border-radius: 12px; font-size: 16px; outline: none; }
+    input { flex: 1; padding: 14px; border: 2px solid #e1e4e8; border-radius: 12px; font-size: 16px; outline: none; font-family: inherit; transition: all 0.3s; }
+    input:focus { border-color: #e74c3c; box-shadow: 0 0 8px rgba(231, 76, 60, 0.2); }
     button { padding: 14px 25px; background: #e74c3c; color: white; border: none; border-radius: 12px; cursor: pointer; font-weight: 600; font-family: inherit; }
     .student-card { background: #2c3e50; color: white; padding: 20px; border-radius: 15px; margin-bottom: 25px; display: none; text-align: center; }
     .sem-block { margin-top: 20px; border: 1px solid #eee; border-radius: 15px; overflow: hidden; background: #fff; }
-    .sem-header { background: #f8f9fa; padding: 12px 20px; font-weight: bold; border-bottom: 1px solid #ddd; }
-    .mod-item { display: flex; justify-content: space-between; padding: 12px 20px; border-bottom: 1px solid #eee; }
-    .status-yes { color: #e74c3c; font-weight: bold; }
-    .status-dash { color: #bbb; }
-    #loading { display: none; text-align: center; margin: 15px 0; }
-    .error { color: #e74c3c; text-align: center; display: none; margin-top: 15px; }
+    .sem-header { background: #f8f9fa; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #ddd; }
+    .sem-title { font-weight: bold; color: #2c3e50; }
+    .mod-item { display: flex; justify-content: space-between; padding: 12px 20px; border-bottom: 1px solid #eee; align-items: center; }
+    .mod-item:last-child { border-bottom: none; }
+    .group-start { border-top: 1.8px solid #000 !important; }
+    .group-end { border-bottom: 1.8px solid #000 !important; }
+    .mod-confirmed { opacity: 1; font-weight: 700; color: #000; font-size: 1em; }
+    .mod-unconfirmed { opacity: 0.85; font-weight: 400; color: #444; font-size: 1em; }
+    .status-yes { color: #e74c3c; font-weight: bold; font-size: 1em; font-family: 'Sylfaen', serif; }
+    .status-dash { color: #bbb; font-weight: bold; }
+    #loading { display: none; text-align: center; color: #7f8c8d; margin: 15px 0; }
+    .error { color: #e74c3c; text-align: center; display: none; margin-top: 15px; font-weight: 600; }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <img src="https://kavkasioni.edu.ge/wp-content/uploads/2021/10/logo-300x300.jpg" class="logo-img">
-      <div class="college-name">საზოგადოებრივი კოლეჯი „კავკასიონი“</div>
+      <img src="https://kavkasioni.edu.ge/wp-content/uploads/2021/10/logo-300x300.jpg" alt="ლოგო" class="logo-img">
+      <div class="college-name">საზოგადოებრივი კოლეჯი ,,კავკასიონი''</div>
       <div class="portal-title">სტუდენტების აკადემიური პორტალი</div>
     </div>
     <div class="search-box">
-      <input type="text" id="code" placeholder="შეიყვანეთ კოდი...">
+      <input type="text" id="code" placeholder="">
       <button onclick="search()">ძებნა</button>
     </div>
-    <div id="loading">მიმდინარეობს ძებნა...</div>
-    <div id="error" class="error">სტუდენტი ვერ მოიძებნა</div>
+    <div id="loading">მონაცემები იტვირთება...</div>
+    <div id="errorMessage" class="error"></div>
     <div id="resultArea">
       <div id="card" class="student-card">
-        <h3 id="n"></h3>
-        <p id="p"></p>
+        <h3 id="n" style="margin:0"></h3>
+        <p id="p" style="margin:5px 0 0 0; opacity:0.8"></p>
       </div>
-      <div id="semesters"></div>
+      <div id="semContainer"></div>
     </div>
   </div>
 
   <script>
-    const API_URL = "https://script.google.com/macros/s/AKfycbzlPk-nU_DcBdslP_sO4-k-G_fe7dxSoGOHeiCCR1vfDYeueCxpegyZcVkkl__4QyQwxA/exec";
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbx0jYnGg5g-hyeSnnIuXF-xu5cjwUUNJN8oFcA5lZgBc7fm_e49wFPcEl85TuI0mHw6Ug/exec";
+    const inputField = document.getElementById('code');
+    const placeholders = ["შეიყვანეთ თქვენი კოდი აქ", "მაგ: AB350"];
+    let currentIndex = 0;
+
+    setInterval(() => {
+      currentIndex = (currentIndex + 1) % placeholders.length;
+      inputField.placeholder = placeholders[currentIndex];
+    }, 2500);
 
     function search() {
-      const code = document.getElementById('code').value.trim();
-      if (!code) return;
+      const code = inputField.value;
+      const container = document.getElementById('semContainer');
+      const card = document.getElementById('card');
+      const err = document.getElementById('errorMessage');
+      const loader = document.getElementById('loading');
+      
+      if(!code) return;
+      container.innerHTML = '';
+      card.style.display = 'none';
+      err.style.display = 'none';
+      loader.style.display = 'block';
 
-      document.getElementById('loading').style.display = 'block';
-      document.getElementById('error').style.display = 'none';
-      document.getElementById('semesters').innerHTML = '';
-      document.getElementById('card').style.display = 'none';
-
-      fetch(`${API_URL}?code=${code}`)
-        .then(res => res.json())
-        .then(data => {
-          document.getElementById('loading').style.display = 'none';
-          if (data.found) {
-            document.getElementById('n').innerText = data.name;
-            document.getElementById('p').innerText = data.program;
-            document.getElementById('card').style.display = 'block';
-            data.semesters.forEach(s => {
+      fetch(`${WEB_APP_URL}?code=${encodeURIComponent(code)}`)
+        .then(response => response.json())
+        .then(res => {
+          loader.style.display = 'none';
+          if(res.found) {
+            document.getElementById('n').innerText = res.name;
+            document.getElementById('p').innerText = res.program;
+            card.style.display = 'block';
+            
+            res.semesters.forEach(function(s) {
               let b = document.createElement('div');
               b.className = 'sem-block';
-              b.innerHTML = `<div class="sem-header">${s.title}</div>`;
-              s.modules.forEach(m => {
+              b.innerHTML = `<div class="sem-header"><span class="sem-title">${s.title}</span></div>`;
+              
+              s.modules.forEach(function(m, index) {
                 let i = document.createElement('div');
-                i.className = 'mod-item';
-                let st = m.status === 'დიახ' ? '<span class="status-yes">დიახ</span>' : '<span class="status-dash">____</span>';
-                i.innerHTML = `<span>${m.moduleName}</span>${st}`;
+                let isConfirmed = m.status === 'დიახ';
+                i.className = isConfirmed ? 'mod-item mod-confirmed' : 'mod-item mod-unconfirmed';
+                
+                let currentBaseName = m.moduleName.split(' ')[0];
+                let prevBaseName = index > 0 ? s.modules[index-1].moduleName.split(' ')[0] : null;
+                let nextBaseName = index < s.modules.length - 1 ? s.modules[index+1].moduleName.split(' ')[0] : null;
+
+                if (currentBaseName !== prevBaseName) i.classList.add('group-start');
+                if (currentBaseName !== nextBaseName) i.classList.add('group-end');
+
+                let statusHtml = isConfirmed ? `<span class="status-yes">დიახ</span>` : `<span class="status-dash">____</span>`;
+                i.innerHTML = `<span style="font-family: 'Sylfaen', serif;">${m.moduleName}</span>${statusHtml}`;
                 b.appendChild(i);
               });
-              document.getElementById('semesters').appendChild(b);
+              container.appendChild(b);
             });
           } else {
-            document.getElementById('error').style.display = 'block';
+            err.innerText = "სტუდენტი ამ კოდით ვერ მოიძებნა";
+            err.style.display = 'block';
           }
+        })
+        .catch(error => {
+          loader.style.display = 'none';
+          err.innerText = "შეცდომა კავშირისას. დარწმუნდით, რომ Apps Script-ზე წვდომა არის 'Anyone'.";
+          err.style.display = 'block';
         });
     }
   </script>
